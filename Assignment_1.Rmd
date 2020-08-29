@@ -1,0 +1,90 @@
+---
+title: "Problem4"
+author: "Tianqi(Tim)"
+date: "8/29/2020"
+output: html_document
+---
+
+
+## Stat 587 XW Homework1
+
+
+### Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+if (!require("reshape2")) install.packages("reshape2")
+if (!require("dplyr"))install.packages("dplyr")
+library(reshape2)
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+
+setwd("c:/Users/46554/github/R/STAT587_2020_fall/STAT_587_2020_fall_Assignment_1/")
+outpath <-"c:/Users/46554/github/R/STAT587_2020_fall/STAT_587_2020_fall_Assignment_1/"
+
+#read data
+df <- read.table("https://raw.githubusercontent.com/Kakashi-sensei/STAT_587_2020_fall_Assignment_1/master/votes.txt", header=TRUE)
+
+#make the date into a long version
+dflong<-melt(
+  df,id.vars = c('Party','State','Representative','PctPro'),
+  measure.vars = c('Pro05','Pro06','Pro07','Anti05','Anti06','Anti07'),
+                variable.name='year',value.name='vote')
+#separate year and Pro or anti into two variables
+dflong <- separate(dflong, col = year, into = c("Pro_Ant","year"), sep = "0")
+dfn <- filter(dflong, year == 5)
+  pp=ggplot(data = dfn, mapping = aes(x = PctPro, color = Party)) + geom_line(stat = "density") + scale_color_manual(breaks = c("R", "D", "I", "."), values=c("purple", "blue", "green", "red"))
+ggsave(pp,filename = "5.pdf",width = 4,height = 3)
+#since the PctPros for 3 years of one person were same, just coculate one is good enough
+
+rm(list = ls())    
+```
+
+
+
+```{r}
+#if PctPro are not same, following code is a good loop.
+setwd("c:/Users/46554/github/R/STAT587_2020_fall/STAT_587_2020_fall_Assignment_1/")
+outpath <-"c:/Users/46554/github/R/STAT587_2020_fall/STAT_587_2020_fall_Assignment_1/"
+
+for (i in 5:7){
+  dfn <- filter(dflong, year == i)
+  pp=ggplot(data = dfn, mapping = aes(x = PctPro, color = Party)) + geom_line(stat = "density") + scale_color_manual(breaks = c("R", "D", "I", "."), values=c("purple", "blue", "green", "red"))
+nam <- sapply(
+    names(dfn),function(x){
+                    paste("LCV", i, ".pdf", sep='')
+                          }
+               )
+  out_filePath <- sapply(
+    nam, function(x){
+             paste(outpath, x, sep='/')
+                    }
+                         )
+   print(pp)
+  ggsave(pp,file=out_filePath[i],width = 4,height = 3)
+    dev.off()
+    getwd()#save files
+}
+
+rm(list = ls())
+```
+
+```{r}
+#tamplate
+p <- ggplot(data = dflong05, mapping = aes(x = PctPro, color = Party)) + geom_line(stat = "density") + scale_color_manual(breaks = c("R", "D", "I", "."), values=c("purple", "blue", "green", "red"))
+#line graph
+
+
+ggplot(data = dflong05) + geom_density(mapping = aes(x=PctPro, fill=Party), alpha=0.4)#planar graph
+```
+
+
+
