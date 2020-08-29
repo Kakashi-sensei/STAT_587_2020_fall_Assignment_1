@@ -48,7 +48,23 @@ ggsave(pp,filename = "5.pdf",width = 4,height = 3)
 rm(list = ls())    
 ```
 
+```{r}
+#summary statistics
 
+dflong$vote <- c(dflong$vote)
+                 
+dflong <- data.frame(lapply(dflong,function(x) {x <- gsub(".","999",x,fixed=TRUE)})) 
+
+myvars <- c("vote") 
+
+newdf<-dflong[which( dflong$vote != 999),]#delete all with 999 in vote
+
+aggregate(dflong[myvars], by=list(Party=dflong$Party, PA=dflong$Pro_Ant, Year=dflong$year), mean)
+
+
+
+rm(myvars)
+```
 
 ```{r}
 #if PctPro are not same, following code is a good loop.
