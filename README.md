@@ -6,3 +6,4 @@ I expect your summary will be one or at most two paragraphs. You should include 
 ## solvent
 *  Working code is in the file of [Assignment_1.Rmd](https://raw.githubusercontent.com/Kakashi-sensei/STAT_587_2020_fall_Assignment_1/master/Assignment_1.Rmd)
 *  graphical result is the file of [5.pdf](https://github.com/Kakashi-sensei/STAT_587_2020_fall_Assignment_1/blob/master/5.pdf). The X axis is the persent of Proenvironment votes, with Y axis being population density.
+*  the mean value of each congress person' vote by different partys was reported in the summary statistics [table](https://github.com/Kakashi-sensei/STAT_587_2020_fall_Assignment_1/blob/master/des.csv)
