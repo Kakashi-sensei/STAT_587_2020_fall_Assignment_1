@@ -53,17 +53,22 @@ rm(list = ls())
 
 dflong$vote <- c(dflong$vote)
                  
-dflong <- data.frame(lapply(dflong,function(x) {x <- gsub(".","999",x,fixed=TRUE)})) 
 
 myvars <- c("vote") 
 
-newdf<-dflong[which( dflong$vote != 999),]#delete all with 999 in vote
-
-aggregate(dflong[myvars], by=list(Party=dflong$Party, PA=dflong$Pro_Ant, Year=dflong$year), mean)
+#stupid data of "." were deleted by excel
 
 
+dflong <- read.csv("https://raw.githubusercontent.com/Kakashi-sensei/STAT_587_2020_fall_Assignment_1/master/dflong.csv", header=TRUE)
 
-rm(myvars)
+desribedf <- aggregate(dflong[myvars], by=list(Party=dflong$Party, PA=dflong$Pro_Ant, Year=dflong$year), mean)
+
+
+
+write.csv(desribedf,file="c:/Users/46554/github/R/STAT587_2020_fall/STAT_587_2020_fall_Assignment_1/des.csv",quote=F,row.names = F)
+
+
+rm(list = ls())
 ```
 
 ```{r}
